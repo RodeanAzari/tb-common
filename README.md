@@ -152,3 +152,7 @@ make ci PY=.venv/bin/python      # lint + pytest + cocotb (needs Verilator on PA
 Tags are cut only after the release's gate test passes, and each is recorded in the
 CHANGELOG with the command, result and evidence. A change to the interface means a new
 tag and a note on what consumers must change.
+
+## License
+
+MIT, see [LICENSE](LICENSE).

@@ -2,6 +2,10 @@
 
 Releases are tagged only after the gate test in `~/fpga-coord/dependencies.toml` passes.
 
+## Unreleased
+
+- MIT license added (`LICENSE`). No code or API change; consumers need do nothing.
+
 ## tb-common-v0.1 (2026-11-03)
 
 **Contents:** `tb_common.axis` (AxisSource / AxisSink / AxisMonitor, tkeep-aware byte
