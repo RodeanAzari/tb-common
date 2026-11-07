@@ -155,12 +155,12 @@ tag and a note on what consumers must change.
 
 ## Used by
 
-| Project | What it is |
-|---|---|
-| [fpga-itch-orderbook](https://github.com/RodeanAzari/fpga-itch-orderbook) (private) | NASDAQ ITCH 5.0 market data to a hardware order book on the Arty A7 |
-| [ccsds-meteor-lrpt-receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) (private) | CCSDS satellite telemetry receiver |
-| [serdes-lab](https://github.com/RodeanAzari/serdes-lab) (private) | Open SerDes Lab |
-| [fpga-eth-core](https://github.com/RodeanAzari/fpga-eth-core) | Payload-agnostic 10/100 Ethernet MAC + IPv4/UDP for 7-series FPGAs |
+| Project | What it is | Consumes |
+|---|---|---|
+| [fpga-itch-orderbook](https://github.com/RodeanAzari/fpga-itch-orderbook) (private) | NASDAQ ITCH 5.0 market data to a hardware order book on the Arty A7 | `tb-common-v0.1` |
+| [ccsds-meteor-lrpt-receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) (private) | CCSDS satellite telemetry receiver | `tb-common-v0.1` |
+| [serdes-lab](https://github.com/RodeanAzari/serdes-lab) (private) | Open SerDes Lab | `tb-common-v0.1` |
+| [fpga-eth-core](https://github.com/RodeanAzari/fpga-eth-core) | Payload-agnostic 10/100 Ethernet MAC + IPv4/UDP for 7-series FPGAs | `tb-common-v0.1` |
 
 ## License
 
