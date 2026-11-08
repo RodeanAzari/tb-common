@@ -161,6 +161,7 @@ tag and a note on what consumers must change.
 | [ccsds-meteor-lrpt-receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) (private) | CCSDS satellite telemetry receiver | `tb-common-v0.1` |
 | [serdes-lab](https://github.com/RodeanAzari/serdes-lab) (private) | Open SerDes Lab | `tb-common-v0.1` |
 | [fpga-eth-core](https://github.com/RodeanAzari/fpga-eth-core) | Payload-agnostic 10/100 Ethernet MAC + IPv4/UDP for 7-series FPGAs | `tb-common-v0.1` |
+| [fpga-rs-core](https://github.com/RodeanAzari/fpga-rs-core) | Parameterized Reed-Solomon decoder (CCSDS RS(255,223), KP4 RS(544,514)) | `tb-common-v0.1` |
 
 ## License
 
