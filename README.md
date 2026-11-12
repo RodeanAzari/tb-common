@@ -162,6 +162,7 @@ tag and a note on what consumers must change.
 | [serdes-lab](https://github.com/RodeanAzari/serdes-lab) (private) | Open SerDes Lab | `tb-common-v0.1` |
 | [fpga-eth-core](https://github.com/RodeanAzari/fpga-eth-core) | Payload-agnostic 10/100 Ethernet MAC + IPv4/UDP for 7-series FPGAs | `tb-common-v0.1` |
 | [fpga-rs-core](https://github.com/RodeanAzari/fpga-rs-core) | Parameterized Reed-Solomon decoder (CCSDS RS(255,223), KP4 RS(544,514)) | `tb-common-v0.1` |
+| [learned-resilience](https://github.com/RodeanAzari/learned-resilience) (private) | On-chip zeroth-order training through hardware faults vs. TMR | `tb-common-v0.1` |
 
 ## License
 
