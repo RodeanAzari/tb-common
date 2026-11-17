@@ -2,9 +2,24 @@
 
 Releases are tagged only after the gate test in `~/fpga-coord/dependencies.toml` passes.
 
-## Unreleased
+## tb-common-v0.2 (2026-11-17)
 
-- MIT license added (`LICENSE`). No code or API change; consumers need do nothing.
+**Contents:** adds `tb_common.coverage`: `snapshot`/`export` (a process's cocotb-coverage
+points and crosses to JSON), `load`, `merge` (hits summed per bin across processes),
+`holes` (bins below `at_least`; exclusions must name a real bin and carry a written
+reason), `report_html`. Optional extra `coverage` (cocotb-coverage). Also the MIT license
+(`LICENSE`). Nothing existing changed: v0.1 consumers need do nothing.
+
+**Gate test:** "Coverage export/merge/holes/report helper (merges per-process bins, reports
+holes, honours written exclusions); self-tests pass; used by P2's `make cov`; no imports
+from P2 code".
+
+| Check | Command | Result |
+|---|---|---|
+| Self-tests | `make ci PY=<venv python>` | ruff clean; Verilator lint clean; pytest 33 passed (8 new for coverage); cocotb skid buffer at DATA_W 8 and 64, 3/3 each |
+| Tests catch real bugs | 3 injected into `coverage.py`, one at a time | each fails a test: merge by `max` instead of sum; holes as `hits == 0` instead of `< at_least`; exclusions not checked |
+| Used by P2 | OrderBook `make cov` (28 parameter sets) | 14 coverage files merged: 17 items, 178 bins, 0 holes, 0 exclusions (`docs/reports/coverage/` in fpga-itch-orderbook) |
+| No P2 imports | `grep -rE "model\|feed\|book\|itch" src/` | none |
 
 ## tb-common-v0.1 (2026-11-03)
 

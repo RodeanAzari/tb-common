@@ -23,11 +23,11 @@ A SerDes lab and a learned-resilience project are gated on it for their testbenc
 
 | | |
 |---|---|
-| **What** | `AxisSource` / `AxisSink` / `AxisMonitor`, `InOrderScoreboard`, `get_rng` |
+| **What** | `AxisSource` / `AxisSink` / `AxisMonitor`, `InOrderScoreboard`, `get_rng`, `coverage` (merge cocotb-coverage bins across processes, report holes) |
 | **Bus widths** | Any; tkeep-aware byte packing (low lanes first), tested at 1, 4 and 8 lanes |
 | **Simulator** | cocotb 2.x; self-tested with Verilator |
-| **Size** | 317 lines of Python in `src/tb_common/` |
-| **Self-tests** | 25 pytest cases plus cocotb against a skid buffer at `DATA_W` 8 and 64; all pass ([CHANGELOG](CHANGELOG.md)) |
+| **Size** | 439 lines of Python in `src/tb_common/` |
+| **Self-tests** | 33 pytest cases plus cocotb against a skid buffer at `DATA_W` 8 and 64; all pass ([CHANGELOG](CHANGELOG.md)) |
 | **Proves it catches bugs** | A build that flips one bit at beat 37 must fail: "mismatch after 13 matched item(s)" |
 | **Python** | ≥ 3.11; ruff clean |
 
@@ -36,7 +36,7 @@ A SerDes lab and a learned-resilience project are gated on it for their testbenc
 Consumers pin a tag, never a branch:
 
 ```
-pip install "tb-common @ git+https://github.com/RodeanAzari/tb-common.git@tb-common-v0.1"
+pip install "tb-common[coverage] @ git+https://github.com/RodeanAzari/tb-common.git@tb-common-v0.2"
 ```
 
 ## Modules
@@ -46,6 +46,7 @@ pip install "tb-common @ git+https://github.com/RodeanAzari/tb-common.git@tb-com
 | `tb_common.axis` | `AxisSource` (driver with random tvalid gaps), `AxisSink` (monitor that also drives random tready), `AxisMonitor` (passive), `AxisBeat`, `bytes_to_beats` / `beats_to_bytes` (tkeep-aware) |
 | `tb_common.scoreboard` | `InOrderScoreboard`: strict in-order compare. It is pure Python, so it can be unit-tested and used outside cocotb. |
 | `tb_common.rng` | `get_rng(name)`: a `random.Random` whose seed is always logged. `SEED=<n>` replays a run. |
+| `tb_common.coverage` | Functional coverage across simulator processes: `export(path)` at the end of each process (its cocotb-coverage points and crosses), then `merge`, `holes` (bins below `at_least`, minus exclusions that must name a real bin and give a written reason) and `report_html`. Only `export` needs cocotb-coverage (the `coverage` extra). |
 
 `tb_common` itself imports without cocotb (scoreboard and RNG). Import `tb_common.axis`
 explicitly; it needs cocotb.
@@ -109,7 +110,7 @@ rising edge, and a correct design failed; on falling edges the race cannot happe
 |---|---|
 | ruff | Lint and import order on `src/` and `tests/` |
 | Verilator `-Wall` | The test DUT (`tests/hdl/axis_reg.sv`, a skid buffer) lints clean |
-| pytest, 25 cases | Every scoreboard failure path (mismatch with context and state dump, reordering, extra item, missing item), RNG reproducibility from a seed and seed logging, byte packing round trips at 1, 4 and 8 lanes |
+| pytest, 33 cases | Coverage: merge sums hits across processes, holes use `at_least`, stale or reasonless exclusions raise, the report marks every bin, an export/load round trip through real cocotb-coverage; and every scoreboard failure path (mismatch with context and state dump, reordering, extra item, missing item), RNG reproducibility from a seed and seed logging, byte packing round trips at 1, 4 and 8 lanes |
 | cocotb, `DATA_W` 8 and 64 | Random tvalid gaps and tready stalls (300 frames) and full throughput (200 frames): every frame intact and in order, monitor beat count equals source beat count |
 | cocotb, corrupted build | `CORRUPT_BEAT=37` flips one data bit in the DUT; the scoreboard must fail (an `expect_fail` test) |
 
@@ -124,8 +125,6 @@ rising edge, and a correct design failed; on falling edges the race cannot happe
 
 - **In-order scoreboard only.** No out-of-order or keyed matching yet. A design that
   legitimately reorders needs its own matcher.
-- **No functional-coverage helpers yet.** They are planned for a later tag, when the order
-  book's coverage-closure phase needs them.
 - **tkeep must be contiguous from the low lane** (e.g. `0b0111`). Sparse tkeep raises.
 - **Tested with Verilator only.** Other simulators that cocotb supports should work but
   are unverified.
@@ -141,8 +140,9 @@ make ci PY=.venv/bin/python      # lint + pytest + cocotb (needs Verilator on PA
 
 | Path | Contents |
 |---|---|
-| `src/tb_common/` | The package: `axis.py`, `scoreboard.py`, `rng.py` |
+| `src/tb_common/` | The package: `axis.py`, `scoreboard.py`, `rng.py`, `coverage.py` |
 | `tests/test_pure.py` | pytest: scoreboard, RNG, byte packing |
+| `tests/test_coverage.py` | pytest: coverage merge, holes, exclusions, report, export |
 | `tests/test_axis_cocotb.py`, `tests/run_cocotb.py` | cocotb self-tests and their Verilator runner |
 | `tests/hdl/axis_reg.sv` | Skid-buffer test DUT, with an optional planted corruption |
 | `CHANGELOG.md` | Each release with its gate test and evidence |
@@ -157,7 +157,7 @@ tag and a note on what consumers must change.
 
 | Project | What it is | Consumes |
 |---|---|---|
-| [fpga-itch-orderbook](https://github.com/RodeanAzari/fpga-itch-orderbook) (private) | NASDAQ ITCH 5.0 market data to a hardware order book on the Arty A7 | `tb-common-v0.1` |
+| [fpga-itch-orderbook](https://github.com/RodeanAzari/fpga-itch-orderbook) (private) | NASDAQ ITCH 5.0 market data to a hardware order book on the Arty A7 | `tb-common-v0.2` |
 | [ccsds-meteor-lrpt-receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) (private) | CCSDS satellite telemetry receiver | `tb-common-v0.1` |
 | [serdes-lab](https://github.com/RodeanAzari/serdes-lab) (private) | Open SerDes Lab | `tb-common-v0.1` |
 | [fpga-eth-core](https://github.com/RodeanAzari/fpga-eth-core) | Payload-agnostic 10/100 Ethernet MAC + IPv4/UDP for 7-series FPGAs | `tb-common-v0.1` |

@@ -4,12 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tb-common"
-version = "0.1.0"
-description = "Project-agnostic cocotb helpers: AXI-Stream driver/monitor, in-order scoreboard, seeded random"
+version = "0.2.0"
+description = "Project-agnostic cocotb helpers: AXI-Stream driver/monitor, in-order scoreboard, seeded random, coverage merge"
 requires-python = ">=3.11"
 license = "MIT"
 license-files = ["LICENSE"]
 dependencies = ["cocotb>=2.0,<3"]
+
+[project.optional-dependencies]
+coverage = ["cocotb-coverage>=2.0,<3"]  # tb_common.coverage.snapshot/export only
 
 [tool.setuptools.packages.find]
 where = ["src"]

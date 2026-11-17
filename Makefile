@@ -7,7 +7,7 @@ lint:
 	verilator --lint-only -Wall tests/hdl/axis_reg.sv
 
 test:
-	$(PY) -m pytest -q tests/test_pure.py
+	PYTHONPATH=src $(PY) -m pytest -q tests/test_pure.py tests/test_coverage.py
 	$(PY) tests/run_cocotb.py
 
 ci: lint test
