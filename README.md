@@ -157,9 +157,9 @@ tag and a note on what consumers must change.
 
 | Project | What it is | Consumes |
 |---|---|---|
-| [fpga-itch-orderbook](https://github.com/RodeanAzari/fpga-itch-orderbook) (private) | NASDAQ ITCH 5.0 market data to a hardware order book on the Arty A7 | `tb-common-v0.2` |
-| [ccsds-meteor-lrpt-receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) (private) | CCSDS satellite telemetry receiver | `tb-common-v0.1` |
-| [serdes-lab](https://github.com/RodeanAzari/serdes-lab) (private) | Open SerDes Lab | `tb-common-v0.1` |
+| [fpga-itch-orderbook](https://github.com/RodeanAzari/fpga-itch-orderbook) | NASDAQ ITCH 5.0 market data to a hardware order book on the Arty A7 | `tb-common-v0.2` |
+| [ccsds-meteor-lrpt-receiver](https://github.com/RodeanAzari/ccsds-meteor-lrpt-receiver) | CCSDS satellite telemetry receiver | `tb-common-v0.1` |
+| [serdes-lab](https://github.com/RodeanAzari/serdes-lab) | Open SerDes Lab | `tb-common-v0.1` |
 | [fpga-eth-core](https://github.com/RodeanAzari/fpga-eth-core) | Payload-agnostic 10/100 Ethernet MAC + IPv4/UDP for 7-series FPGAs | `tb-common-v0.1` |
 | [fpga-rs-core](https://github.com/RodeanAzari/fpga-rs-core) | Parameterized Reed-Solomon decoder (CCSDS RS(255,223), KP4 RS(544,514)) | `tb-common-v0.1` |
 | [learned-resilience](https://github.com/RodeanAzari/learned-resilience) (private) | On-chip zeroth-order training through hardware faults vs. TMR | `tb-common-v0.1` |
